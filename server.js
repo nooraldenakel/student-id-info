@@ -1,25 +1,33 @@
-const express = require("express");
-const path = require("path");
-const { createProxyMiddleware } = require("http-proxy-middleware");
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import { createProxyMiddleware } from "http-proxy-middleware";
+
+// ES module workaround for __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static frontend
+// Serve frontend files
 app.use(express.static(path.join(__dirname, "dist")));
 
-// Proxy API requests to backend
-app.use("/api", createProxyMiddleware({
-    target: "https://student-id-info.com/", // your backend Railway URL
-    changeOrigin: true,
-    pathRewrite: { "^/api": "/api" }
-}));
+// Proxy /api to backend
+app.use(
+    "/api",
+    createProxyMiddleware({
+        target: "https://student-id-info-back.up.railway.app",
+        changeOrigin: true,
+        pathRewrite: { "^/api": "/api" }
+    })
+);
 
-// Handle SPA routing
+// For SPA routing
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "dist/index.html"));
 });
 
 app.listen(PORT, () => {
-    console.log(`Frontend running on port ${PORT}`);
+    console.log(`Frontend server running on port ${PORT}`);
 });
