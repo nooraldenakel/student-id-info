@@ -17,7 +17,7 @@ app.use(express.static(path.join(__dirname, "dist")));
 app.use(
     "/api",
     createProxyMiddleware({
-        target: "https://student-id-info-back.up.railway.app",
+        target: "https://student-id-info-back-none.up.railway.app/",
         changeOrigin: true,
         pathRewrite: { "^/api": "/api" }
     })
