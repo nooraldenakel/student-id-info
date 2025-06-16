@@ -18,7 +18,7 @@ app.use(
     createProxyMiddleware({
         target: "https://student-id-info-back-production.up.railway.app", // 🔁 use backend's real Railway URL
         changeOrigin: true,
-        pathRewrite: { "^/api": "" }
+        pathRewrite: { "^/api": "/api" }
     })
 );
 app.use(
