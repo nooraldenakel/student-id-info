@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, "dist")));
 app.use(
     "/api",
     createProxyMiddleware({
-        target: "https://student-id-info-back-none.up.railway.app", // 🔁 use backend's real Railway URL
+        target: "https://student-id-info-back-production.up.railway.app", // 🔁 use backend's real Railway URL
         changeOrigin: true,
         pathRewrite: { "^/api": "" }
     })
@@ -24,7 +24,7 @@ app.use(
 app.use(
     "/student",
     createProxyMiddleware({
-        target: "https://student-id-info-back-none.up.railway.app",
+        target: "https://student-id-info-back-production.up.railway.app",
         changeOrigin: true
     })
 );
