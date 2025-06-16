@@ -21,6 +21,13 @@ app.use(
         pathRewrite: { "^/api": "" }
     })
 );
+app.use(
+    "/student",
+    createProxyMiddleware({
+        target: "https://student-id-info-back-none.up.railway.app",
+        changeOrigin: true
+    })
+);
 
 // Handle SPA routing
 app.get("*", (req, res) => {
