@@ -14,11 +14,17 @@ app.use(express.static(path.join(__dirname, "dist")));
 
 // ✅ Correct proxy setup
 app.use(
+    "/",
+    createProxyMiddleware({
+        target: "https://student-id-info-back-production.up.railway.app", // 🔁 use backend's real Railway URL
+        changeOrigin: true,
+    })
+);
+app.use(
     "/api",
     createProxyMiddleware({
         target: "https://student-id-info-back-production.up.railway.app", // 🔁 use backend's real Railway URL
         changeOrigin: true,
-        pathRewrite: { "^/api": "/api" }
     })
 );
 app.use(
