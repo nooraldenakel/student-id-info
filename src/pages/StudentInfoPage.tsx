@@ -41,7 +41,7 @@ const StudentInfoPage = () => {
             setFetchingInfo(true)
             try {
                 const encodedName = encodeURIComponent(studentName.trim())
-                const res = await fetch(`https://www.alayen-student-info.site/api/student/${examCode}/${encodedName}`)
+                const res = await fetch(`https://www.alayen-student-info.site/student/search?query/${examCode}`)
                 if (!res.ok) throw new Error('Failed to fetch student info')
                 const data = await res.json()
                 setStudentInfo(data)
