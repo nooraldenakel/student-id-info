@@ -28,19 +28,45 @@ const StudentInfoPage = () => {
   const [imageAnalysis, setImageAnalysis] = useState<ImageAnalysis | null>(null)
   const [analyzingImage, setAnalyzingImage] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [studentInfo, setStudentInfo] = useState<{
+        name: string
+        examNumber: number
+        section: string
+        studyType: string
+    } | null>(null)
+    const [fetchingInfo, setFetchingInfo] = useState(false)
+    useEffect(() => {
+        if (!studentName || !examCode) {
+            navigate('/')
+            return
+        }
 
-  // Mock student data
-  const mockStudentData = {
-    collegeDepartment: 'علوم الحاسوب',
-    studyType: 'صباحي'
-  }
+        const fetchStudentInfo = async () => {
+            setFetchingInfo(true)
+            try {
+                const encodedName = encodeURIComponent(studentName.trim())
+                const url = `https://www.alayen-student-info.site/api/student/${examCode}/${encodedName}`
+                const response = await fetch(url)
 
+                if (!response.ok) throw new Error('Fetch failed')
 
-  useEffect(() => {
-    if (!studentName || !examCode) {
-      navigate('/')
-    }
-  }, [studentName, examCode, navigate])
+                const data = await response.json()
+
+                setStudentInfo({
+                    name: data.name,
+                    examNumber: data.examNumber,
+                    section: data.section,
+                    studyType: data.studyType
+                })
+            } catch (err) {
+                console.error('❌ Error loading student info:', err)
+            } finally {
+                setFetchingInfo(false)
+            }
+        }
+
+        fetchStudentInfo()
+    }, [studentName, examCode, navigate])
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -196,8 +222,8 @@ const StudentInfoPage = () => {
                 <div className="flex items-center space-x-3 space-x-reverse p-3 bg-white/50 rounded-xl">
                                   <User className="w-5 h-5 text-gray-500" />
                                   <div className="text-right">
-                    <p className="text-sm text-gray-600">اسم الطالب</p>
-                    <p className="font-semibold text-gray-800">{studentName}</p>
+                                      <p className="text-sm text-gray-600">اسم الطالب</p>
+                                      <p className="font-semibold text-gray-800">{studentInfo?.name}</p>
                   </div>
                   
                 </div>
@@ -205,8 +231,8 @@ const StudentInfoPage = () => {
                 <div className="flex items-center space-x-3 space-x-reverse p-3 bg-white/50 rounded-xl">
                                   <Hash className="w-5 h-5 text-gray-500" />
                                   <div className="text-right">
-                    <p className="text-sm text-gray-600">الرقم الامتحاني</p>
-                    <p className="font-semibold text-gray-800">{examCode}</p>
+                                      <p className="text-sm text-gray-600">الرقم الامتحاني</p>
+                                      <p className="font-semibold text-gray-800">{studentInfo?.examNumber}</p>
                   </div>
                   
                 </div>
@@ -214,8 +240,8 @@ const StudentInfoPage = () => {
                 <div className="flex items-center space-x-3 space-x-reverse p-3 bg-white/50 rounded-xl">
                                   <GraduationCap className="w-5 h-5 text-gray-500" />
                                   <div className="text-right">
-                    <p className="text-sm text-gray-600">القسم</p>
-                    <p className="font-semibold text-gray-800">{mockStudentData.collegeDepartment}</p>
+                                      <p className="text-sm text-gray-600">القسم</p>
+                                      <p className="font-semibold text-gray-800">{studentInfo?.section}</p>
                   </div>
                   
                 </div>
@@ -223,8 +249,8 @@ const StudentInfoPage = () => {
                 <div className="flex items-center space-x-3 space-x-reverse p-3 bg-white/50 rounded-xl">
                                   <Clock className="w-5 h-5 text-gray-500" />
                                   <div className="text-right">
-                    <p className="text-sm text-gray-600">نوع الدراسة</p>
-                    <p className="font-semibold text-gray-800">{mockStudentData.studyType}</p>
+                                      <p className="text-sm text-gray-600">نوع الدراسة</p>
+                                      <p className="font-semibold text-gray-800">{studentInfo?.studyType}</p>
                   </div>
                   
                 </div>
