@@ -43,11 +43,15 @@ const StudentInfoPage = () => {
 
         const fetchStudentInfo = async () => {
             setFetchingInfo(true)
+            const url = `https://www.alayen-student-info.site/student/search?query=2224124022183`
             try {
-                const encodedName = encodeURIComponent(studentName.trim())
-                const url = `https://www.alayen-student-info.site/student/search?query=${examCode}`
-                const response = await fetch(url)
-
+                const encodedName = encodeURIComponent(studentName.trim())  
+                const response = await fetch(url, {
+                    method: "GET",
+                    headers: {
+                        'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJteS1hdWRpZW5jZSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJ1c2VybmFtZSI6Itiz2YTZitmF2KfZhiDYqNiv2LEg2YfZhNin2YQg2LXZg9ixIiwiY29kZSI6MjIyNDEyNDAyMjE4MywiZXhwIjoxNzUwMTg2OTg1fQ._Quv7OlsIadqR63dFPu0zRab3WI_nqBi66gtQ46cUIs`
+                    }
+                })
                 if (!response.ok) throw new Error('Fetch failed')
 
                 const data = await response.json()

@@ -77,7 +77,7 @@ const LoginPage = () => {
           if (result.accessToken && result.refreshToken) {
             navigate('/student-info', {
                           state: {
-                             studentName: formData.name,
+                              studentName: result.accessToken,
                               examCode: formData.examCode
                          }
                       })
