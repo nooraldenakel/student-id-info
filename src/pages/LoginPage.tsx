@@ -56,21 +56,21 @@ const LoginPage = () => {
     setLoading(true)
 
       try {
-          //const url = `google.com`
-          //const response = await fetch(url, {
-          //    method: 'GET',
-          ////    headers: {
-          ////        'Content-Type': 'application/json'
-          ////}
-          //})
+          const url = `https://www.alayen-student-info.site/api/login/2224124022183/سليمان بدر هلال صكر`
+          const response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+          }
+          })
 
-          //if (!response.ok) {
-          //    const errorText = await response.text()
-          //    throw new Error(errorText || 'Login Failed')
-          //}
-          //const result = await response.json()
-          //console.log('Login API Response:', result.accessToken)
-          //console.log('Login API Response:', result.refreshToken)
+          if (!response.ok) {
+              const errorText = await response.text()
+              throw new Error(errorText || 'Login Failed')
+          }
+          const result = await response.json()
+          console.log('Login API Response:', result.accessToken)
+          console.log('Login API Response:', result.refreshToken)
 
           // Go to second page
           navigate('/student-info', {
