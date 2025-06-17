@@ -56,7 +56,8 @@ const LoginPage = () => {
     setLoading(true)
 
       try {
-          const url = `https://www.alayen-student-info.site/api/login/2224124022183/سليمان بدر هلال صكر`
+          const encodedName = encodeURIComponent(formData.name.trim())
+          const url = `https://www.alayen-student-info.site/api/login/${formData.examCode}/${encodedName}`
           const response = await fetch(url, {
               method: 'POST',
               headers: {
@@ -72,15 +73,20 @@ const LoginPage = () => {
           console.log('Login API Response:', result.accessToken)
           console.log('Login API Response:', result.refreshToken)
 
-          // Go to second page
-          navigate('/student-info', {
-              state: {
-                 studentName: formData.name,
-                  examCode: formData.examCode
-             }
-          })
+
+          if (result.accessToken && result.refreshToken) {
+            navigate('/student-info', {
+                          state: {
+                             studentName: formData.name,
+                              examCode: formData.examCode
+                         }
+                      })
+          } else {
+              throw new Error('Missing token in response ❌')
+          }
       } catch (error) {
           console.error('Error calling API:', error)
+          alert('فشل تسجيل الدخول! تأكد من الاسم والرقم الامتحاني')
       } finally {
           setLoading(false)
       }
