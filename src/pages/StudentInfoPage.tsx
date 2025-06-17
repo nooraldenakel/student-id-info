@@ -45,7 +45,7 @@ const StudentInfoPage = () => {
             setFetchingInfo(true)
             try {
                 const encodedName = encodeURIComponent(studentName.trim())
-                const url = `https://www.alayen-student-info.site/api/student/${examCode}/${encodedName}`
+                const url = `https://www.alayen-student-info.site/student/search?query=${examCode}`
                 const response = await fetch(url)
 
                 if (!response.ok) throw new Error('Fetch failed')
