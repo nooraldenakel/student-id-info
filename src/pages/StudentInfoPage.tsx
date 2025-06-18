@@ -159,7 +159,7 @@ const StudentInfoPage = () => {
             formData.append("image", selectedImage);
 
             const response = await fetch(
-                "https://www.alayen-student-info.site/student/examCode",
+                "https://www.alayen-student-info.site/student/${examCode}",
                 {
                     method: "POST",
                     headers: {
