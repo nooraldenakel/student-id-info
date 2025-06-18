@@ -19,7 +19,7 @@ const storage = multer.memoryStorage(); // or use diskStorage() to save to folde
 const upload = multer({ storage });
 
 // Define POST endpoint
-app.post("/student/:examCode", upload.single("image"), (req, res) => {
+app.patch("/student/:examCode", upload.single("image"), (req, res) => {
     const examCode = req.params.examCode;
     const image = req.file; // image file from formData
     const birthDate = req.body.birthDate; // text from formData
