@@ -157,9 +157,9 @@ const StudentInfoPage = () => {
 
             formData.append("birthDate", `10/1/${birthYearValue}`);
             formData.append("image", selectedImage);
-
+            console.log("examCode", examCode)
             const response = await fetch(
-                "https://www.alayen-student-info.site/student/${examCode}",
+                `https://www.alayen-student-info.site/student/${examCode}`,
                 {
                     method: "POST",
                     headers: {
