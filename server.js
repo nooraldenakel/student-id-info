@@ -25,7 +25,7 @@ app.use(cors({
 }));
 
 // Define Patch endpoint
-app.patch("/student/:examCode", upload.single("image"), (req, res) => {
+app.patch("/student/examNumber", upload.single("image"), (req, res) => {
     console.log("✅ Received PATCH /student/:examCode");
 
     const authHeader = req.headers.authorization;
