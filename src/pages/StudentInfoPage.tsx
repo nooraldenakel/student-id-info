@@ -16,7 +16,7 @@ interface ImageAnalysis {
 }
 
 const StudentInfoPage = () => {
-  const location = useLocation()
+  //const location = useLocation()
   const navigate = useNavigate()
   //const { accessToken,refreshToken,studentName, examCode } = location.state || {}
 
@@ -42,6 +42,7 @@ const StudentInfoPage = () => {
     useEffect(() => {
         if (!accessToken || !examCode) {
             navigate('/')
+            return;
         }
 
         const fetchStudentInfo = async () => {
