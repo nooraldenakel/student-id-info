@@ -16,8 +16,8 @@ app.use(express.static(path.join(__dirname, "dist")));
 
 
 // Configure multer to store uploaded files in memory or on disk
-//const storage = multer.memoryStorage(); // or use diskStorage() to save to folder
-//const upload = multer({ storage });
+const storage = multer.memoryStorage(); // or use diskStorage() to save to folder
+const upload = multer({ storage });
 
 app.use(cors({
     origin: "https://www.alayen-student-info.site",
@@ -27,10 +27,10 @@ app.use(cors({
 
 // Define Patch endpoint
 app.patch("/student/:examNumber", upload.single("image"), (req, res) => {
-    console.log("✅ Received PATCH /student/:examCode");
 
     const authHeader = req.headers.authorization;
     console.log("🔐 Authorization Header:", authHeader);
+
     const examCode = req.params.examNumber;
     const image = req.file;
     const birthDate = req.body.birthDate;
