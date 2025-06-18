@@ -66,7 +66,7 @@ app.patch("/student/:examNumber", upload.single("image"), (req, res) => {
         return res.status(403).json({ error: "Missing data or unauthorized" });
     }
 
-     You can now process the image or store it in DB, etc.
+     //You can now process the image or store it in DB, etc.
     res.json({ success: true, message: "Received", examCode, birthDate });
 });
 
