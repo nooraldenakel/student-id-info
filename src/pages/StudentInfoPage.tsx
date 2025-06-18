@@ -164,7 +164,7 @@ const StudentInfoPage = () => {
             const response = await fetch(
                 `https://www.alayen-student-info.site/student/${examCode}`,
                 {
-                    method: "POST",
+                    method: "PATCH",
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                         // ❗ Don't set Content-Type manually; browser will do it for FormData
