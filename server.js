@@ -26,50 +26,50 @@ app.use(cors({
 }));
 
 // Define Patch endpoint
-//app.patch("/student/:examNumber", upload.single("image"), (req, res) => {
-//    console.log("✅ Received PATCH /student/:examCode");
+app.patch("/student/:examNumber", upload.single("image"), (req, res) => {
+    console.log("✅ Received PATCH /student/:examCode");
 
-//    const authHeader = req.headers.authorization;
-//    console.log("🔐 Authorization Header:", authHeader);
-//    const examCode = req.params.examNumber;
-//    const image = req.file;
-//    const birthDate = req.body.birthDate;
+    const authHeader = req.headers.authorization;
+    console.log("🔐 Authorization Header:", authHeader);
+    const examCode = req.params.examNumber;
+    const image = req.file;
+    const birthDate = req.body.birthDate;
 
-//    console.log("🔄 Updating student:", examCode);
-//    if (!students[examCode]) {
-//        return res.status(404).json({ error: "Student not found" });
-//    }
+    console.log("🔄 Updating student:", examCode);
+    if (!students[examCode]) {
+        return res.status(404).json({ error: "Student not found" });
+    }
 
-//    if (birthDate) students[examCode].birthDate = birthDate;
-//    if (image) students[examCode].image = image.buffer; // or store on disk/cloud
+    if (birthDate) students[examCode].birthDate = birthDate;
+    if (image) students[examCode].image = image.buffer; // or store on disk/cloud
 
-//    return res.json({
-//        message: `Student with ID: ${examCode} updated successfully`,
-//        updated: students[examCode]
-//    });
+    return res.json({
+        message: `Student with ID: ${examCode} updated successfully`,
+        updated: students[examCode]
+    });
 
-//    console.log("📥 Incoming POST to /student/:examCode");
-//    console.log("🧪 Received Exam Code:", examCode);
-//    console.log("🎂 Received Birth Date:", birthDate);
-//    console.log("📦 req.body:", req.body);
-//    console.log("📦 req.file:", req.file);
-//    if (image) {
-//        console.log("🖼️ Image Info:");
-//        console.log(" - fieldname:", image.fieldname);
-//        console.log(" - originalname:", image.originalname);
-//        console.log(" - mimetype:", image.mimetype);
-//        console.log(" - size (bytes):", image.size);
-//    } else {
-//        console.warn("❌ No image uploaded in 'image' field");
-//    }
+    console.log("📥 Incoming POST to /student/:examCode");
+    console.log("🧪 Received Exam Code:", examCode);
+    console.log("🎂 Received Birth Date:", birthDate);
+    console.log("📦 req.body:", req.body);
+    console.log("📦 req.file:", req.file);
+    if (image) {
+        console.log("🖼️ Image Info:");
+        console.log(" - fieldname:", image.fieldname);
+        console.log(" - originalname:", image.originalname);
+        console.log(" - mimetype:", image.mimetype);
+        console.log(" - size (bytes):", image.size);
+    } else {
+        console.warn("❌ No image uploaded in 'image' field");
+    }
 
-//    if (!authHeader || !image || !birthDate) {
-//        return res.status(403).json({ error: "Missing data or unauthorized" });
-//    }
+    if (!authHeader || !image || !birthDate) {
+        return res.status(403).json({ error: "Missing data or unauthorized" });
+    }
 
-//     //You can now process the image or store it in DB, etc.
-//    res.json({ success: true, message: "Received", examCode, birthDate });
-//});
+     //You can now process the image or store it in DB, etc.
+    res.json({ success: true, message: "Received", examCode, birthDate });
+});
 
 // ✅ Correct proxy setup
 app.use(
@@ -84,13 +84,6 @@ app.use(
     createProxyMiddleware({
         target: "https://student-id-info-back-production.up.railway.app", // 🔁 use backend's real Railway URL
         changeOrigin: true,
-    })
-);
-app.use(
-    "/student",
-    createProxyMiddleware({
-        target: "https://student-id-info-back-production.up.railway.app",
-        changeOrigin: true
     })
 );
 
