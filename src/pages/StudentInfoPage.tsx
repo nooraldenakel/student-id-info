@@ -144,19 +144,43 @@ const StudentInfoPage = () => {
     return Object.values(imageAnalysis).every(result => result === true)
   }
 
-  const handleSubmit = () => {
-    if (!isFormValid()) {
-      return
-    }
+    const handleSubmit = async () => {
+        if (!isFormValid() || !selectedImage) return;
 
-    setSubmitting(true)
-    
-    setTimeout(() => {
-      setSubmitting(false)
-      alert('تم إرسال معلومات الطالب بنجاح!')
-      navigate('/')
-    }, 2000)
-  }
+        setSubmitting(true);
+
+        try {
+            const formData = new FormData();
+            formData.append("birthDate", inputMethod === 'calendar' ? birthDate : `1/1/${birthYear}`);
+            formData.append("image", selectedImage);
+
+            const response = await fetch("https://www.alayen-student-info.site/student/examCode", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    // You MUST NOT set 'Content-Type' manually here – let the browser handle it.
+                    "Authorization": `Bearer ${accessToken}`
+                }
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText || "Failed to submit");
+            }
+
+            const result = await response.json();
+            console.log("✅ Submission successful:", result);
+            alert("✅ تم إرسال معلومات الطالب بنجاح!");
+            navigate("/");
+
+        } catch (err) {
+            console.error("❌ Submission failed:", err);
+            alert("❌ فشل الإرسال، حاول مجددًا");
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
 
   const renderAnalysisItem = (
     label: string,
