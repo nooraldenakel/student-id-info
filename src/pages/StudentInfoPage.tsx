@@ -40,14 +40,14 @@ const StudentInfoPage = () => {
     } | null>(null)
     const [fetchingInfo, setFetchingInfo] = useState(false)
     useEffect(() => {
-        if (!accessToken || !examCode) {
+        if (!accessToken || !studentInfo?.examNumber) {
             navigate('/')
             return;
         }
 
         const fetchStudentInfo = async () => {
             setFetchingInfo(true)
-            const url = `https://www.alayen-student-info.site/student/search?query=${examCode}`
+            const url = `https://www.alayen-student-info.site/student/search?query=${studentInfo?.examNumber}`
             try {
                 //const encodedName = encodeURIComponent(studentName.trim())  
                 const response = await fetch(url, {
