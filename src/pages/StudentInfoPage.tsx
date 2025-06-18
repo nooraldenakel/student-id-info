@@ -145,7 +145,10 @@ const StudentInfoPage = () => {
   }
 
     const handleSubmit = async () => {
-        if (!isFormValid() || !selectedImage) return;
+        if (!isFormValid() || !selectedImage) {
+            alert("❌ Please select an image and ensure analysis passed.");
+            return;
+        }
 
         setSubmitting(true);
         try {
@@ -155,11 +158,8 @@ const StudentInfoPage = () => {
                     ? new Date(birthDate).getFullYear().toString()
                     : birthYear;
 
-            formData.append("birthDate", `10/1/${birthYearValue}`);
+            formData.append("birthDate", `${birthYearValue}`);
             formData.append("image", selectedImage);
-            console.log("examCode", examCode)
-            console.log("image", selectedImage)
-            console.log("birthDate", `10/1/${birthYearValue}`)
 
             const response = await fetch(
                 `https://www.alayen-student-info.site/student/${examCode}`,
