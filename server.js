@@ -21,7 +21,8 @@ app.use(express.static(path.join(__dirname, "dist")));
 
 app.use(cors({
     origin: "https://www.alayen-student-info.site",
-    credentials: true
+    credentials: true,
+    allowedHeaders: ["Authorization", "Content-Type"]
 }));
 
 // Define Patch endpoint

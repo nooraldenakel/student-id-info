@@ -49,6 +49,7 @@ const StudentInfoPage = () => {
             setFetchingInfo(true)
             const url = `https://www.alayen-student-info.site/student/search?query=${examCode}`
             try {
+
                 //const encodedName = encodeURIComponent(studentName.trim())  
                 const response = await fetch(url, {
                     method: "GET",
