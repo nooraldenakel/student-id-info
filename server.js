@@ -25,7 +25,7 @@ app.use(cors({
 }));
 
 // Define Patch endpoint
-app.patch("/student/examNumber", upload.single("image"), (req, res) => {
+app.patch("/student/:examNumber", upload.single("image"), (req, res) => {
     console.log("✅ Received PATCH /student/:examCode");
 
     const authHeader = req.headers.authorization;
@@ -47,26 +47,26 @@ app.patch("/student/examNumber", upload.single("image"), (req, res) => {
         updated: students[examCode]
     });
 
-    //console.log("📥 Incoming POST to /student/:examCode");
-    //console.log("🧪 Received Exam Code:", examCode);
-    //console.log("🎂 Received Birth Date:", birthDate);
-    //console.log("📦 req.body:", req.body);
-    //console.log("📦 req.file:", req.file);
-    //if (image) {
-    //    console.log("🖼️ Image Info:");
-    //    console.log(" - fieldname:", image.fieldname);
-    //    console.log(" - originalname:", image.originalname);
-    //    console.log(" - mimetype:", image.mimetype);
-    //    console.log(" - size (bytes):", image.size);
-    //} else {
-    //    console.warn("❌ No image uploaded in 'image' field");
-    //}
+    console.log("📥 Incoming POST to /student/:examCode");
+    console.log("🧪 Received Exam Code:", examCode);
+    console.log("🎂 Received Birth Date:", birthDate);
+    console.log("📦 req.body:", req.body);
+    console.log("📦 req.file:", req.file);
+    if (image) {
+        console.log("🖼️ Image Info:");
+        console.log(" - fieldname:", image.fieldname);
+        console.log(" - originalname:", image.originalname);
+        console.log(" - mimetype:", image.mimetype);
+        console.log(" - size (bytes):", image.size);
+    } else {
+        console.warn("❌ No image uploaded in 'image' field");
+    }
 
-    //if (!authHeader || !image || !birthDate) {
-    //    return res.status(403).json({ error: "Missing data or unauthorized" });
-    //}
+    if (!authHeader || !image || !birthDate) {
+        return res.status(403).json({ error: "Missing data or unauthorized" });
+    }
 
-    // You can now process the image or store it in DB, etc.
+     You can now process the image or store it in DB, etc.
     res.json({ success: true, message: "Received", examCode, birthDate });
 });
 
