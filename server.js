@@ -24,16 +24,27 @@ app.post("/student/:examCode", upload.single("image"), (req, res) => {
     const image = req.file; // image file from formData
     const birthDate = req.body.birthDate; // text from formData
 
-    console.log("📦 Image:", image?.originalname);
-    console.log("🎓 Exam Code:", examCode);
-    console.log("🎂 Birth Date:", birthDate);
+    console.log("📥 Incoming POST to /student/:examCode");
+    console.log("🧪 Received Exam Code:", examCode);
+    console.log("🎂 Received Birth Date:", birthDate);
+    console.log("📦 req.body:", req.body);
+    console.log("📦 req.file:", req.file);
+    if (image) {
+        console.log("🖼️ Image Info:");
+        console.log(" - fieldname:", image.fieldname);
+        console.log(" - originalname:", image.originalname);
+        console.log(" - mimetype:", image.mimetype);
+        console.log(" - size (bytes):", image.size);
+    } else {
+        console.warn("❌ No image uploaded in 'image' field");
+    }
 
     if (!image || !birthDate) {
         return res.status(400).json({ error: "Missing image or birthDate" });
     }
 
     // You can now process the image or store it in DB, etc.
-    res.json({ success: true, message: image, examCode, birthDate });
+    res.json({ success: true, message: "Received", examCode, birthDate });
 });
 
 // ✅ Correct proxy setup
