@@ -70,19 +70,23 @@ const LoginPage = () => {
               throw new Error(errorText || 'Login Failed')
           }
           const result = await response.json()
-          console.log('Login API Response:', result)
+          //console.log('Login API Response:', result)
 
           const { accessToken, refreshToken } = result;
 
 
           if (accessToken && refreshToken) {
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("refreshToken", refreshToken);
+            localStorage.setItem("studentName", formData.name.trim());
+            localStorage.setItem("examCode", formData.examCode);
             navigate('/student-info', {
-                state: {
-                    accessToken,
-                    refreshToken,
-                    studentName: formData.name.trim(),
-                    examCode: formData.examCode
-                         }
+                //state: {
+                //    accessToken,
+                //    refreshToken,
+                //    studentName: formData.name.trim(),
+                //    examCode: formData.examCode
+                //         }
                       })
           } else {
               throw new Error('Missing token in response ❌')

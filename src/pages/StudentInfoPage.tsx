@@ -18,8 +18,12 @@ interface ImageAnalysis {
 const StudentInfoPage = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  const { accessToken,refreshToken,studentName, examCode } = location.state || {}
+  //const { accessToken,refreshToken,studentName, examCode } = location.state || {}
 
+  const accessToken = localStorage.getItem("accessToken");
+  const refreshToken = localStorage.getItem("refreshToken");
+  const studentName = localStorage.getItem("studentName");
+  const examCode = localStorage.getItem("examCode");
   const [birthYear, setBirthYear] = useState('')
   const [birthDate, setBirthDate] = useState('')
   const [inputMethod, setInputMethod] = useState<'manual' | 'calendar'>('manual')
@@ -36,16 +40,15 @@ const StudentInfoPage = () => {
     } | null>(null)
     const [fetchingInfo, setFetchingInfo] = useState(false)
     useEffect(() => {
-        if (!studentName || !examCode) {
+        if (!accessToken || !examCode) {
             navigate('/')
-            return
         }
 
         const fetchStudentInfo = async () => {
             setFetchingInfo(true)
             const url = `https://www.alayen-student-info.site/student/search?query=${examCode}`
             try {
-                const encodedName = encodeURIComponent(studentName.trim())  
+                //const encodedName = encodeURIComponent(studentName.trim())  
                 const response = await fetch(url, {
                     method: "GET",
                     headers: {
