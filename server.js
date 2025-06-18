@@ -33,7 +33,7 @@ app.post("/student/:examCode", upload.single("image"), (req, res) => {
     }
 
     // You can now process the image or store it in DB, etc.
-    res.json({ success: true, message: "Data received", examCode, birthDate });
+    res.json({ success: true, message: image, examCode, birthDate });
 });
 
 // ✅ Correct proxy setup
