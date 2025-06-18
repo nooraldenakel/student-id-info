@@ -103,11 +103,11 @@ const StudentInfoPage = () => {
     // Simulate image analysis
     setTimeout(() => {
       const analysis: ImageAnalysis = {
-        headPosition: Math.random() > 0.3,
-        eyesOpen: Math.random() > 0.2,
-        glasses: Math.random() > 0.5,
-        whiteBackground: Math.random() > 0.4,
-        goodLighting: Math.random() > 0.3
+        headPosition: Math.random() > 0.1, //0.3
+        eyesOpen: Math.random() > 0.1, //0.2
+        glasses: Math.random() > 0.1, //0.5
+        whiteBackground: Math.random() > 0.1, //0.4
+        goodLighting: Math.random() > 0.1 //0.3
       }
       setImageAnalysis(analysis)
       setAnalyzingImage(false)
