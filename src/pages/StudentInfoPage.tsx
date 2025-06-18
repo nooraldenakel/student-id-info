@@ -148,38 +148,42 @@ const StudentInfoPage = () => {
         if (!isFormValid() || !selectedImage) return;
 
         setSubmitting(true);
-
         try {
             const formData = new FormData();
-            formData.append("birthDate", inputMethod === 'calendar' ? birthDate : `1/1/${birthYear}`);
+            const birthYearValue =
+                inputMethod === "calendar"
+                    ? new Date(birthDate).getFullYear().toString()
+                    : birthYear;
+
+            formData.append("birthDate", `10/1/${birthYearValue}`);
             formData.append("image", selectedImage);
 
-            const response = await fetch("https://www.alayen-student-info.site/student/examCode", {
-                method: "POST",
-                body: formData,
-                headers: {
-                    // You MUST NOT set 'Content-Type' manually here – let the browser handle it.
-                    "Authorization": `Bearer ${accessToken}`
+            const response = await fetch(
+                "https://www.alayen-student-info.site/student/examCode",
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                        // ❗ Don't set Content-Type manually; browser will do it for FormData
+                    },
+                    body: formData,
                 }
-            });
+            );
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(errorText || "Failed to submit");
-            }
+            if (!response.ok) throw new Error("Failed to submit");
 
             const result = await response.json();
-            console.log("✅ Submission successful:", result);
-            alert("✅ تم إرسال معلومات الطالب بنجاح!");
+            console.log("✅ Submission Success:", result);
+            alert("✅ تم إرسال المعلومات بنجاح!");
             navigate("/");
-
         } catch (err) {
             console.error("❌ Submission failed:", err);
-            alert("❌ فشل الإرسال، حاول مجددًا");
+            alert("فشل إرسال المعلومات. تحقق من الاتصال أو حاول مرة أخرى.");
         } finally {
             setSubmitting(false);
         }
     };
+
 
 
   const renderAnalysisItem = (
