@@ -1,4 +1,5 @@
 ﻿import express from "express";
+import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createProxyMiddleware } from "http-proxy-middleware";
@@ -18,8 +19,17 @@ app.use(express.static(path.join(__dirname, "dist")));
 const storage = multer.memoryStorage(); // or use diskStorage() to save to folder
 const upload = multer({ storage });
 
-// Define POST endpoint
+app.use(cors({
+    origin: "https://www.alayen-student-info.site",
+    credentials: true
+}));
+
+// Define Patch endpoint
 app.patch("/student/:examCode", upload.single("image"), (req, res) => {
+    console.log("✅ Received PATCH /student/:examCode");
+
+    const authHeader = req.headers.authorization;
+    console.log("🔐 Authorization Header:", authHeader);
     const examCode = req.params.examCode;
     const image = req.file; // image file from formData
     const birthDate = req.body.birthDate; // text from formData
@@ -39,8 +49,8 @@ app.patch("/student/:examCode", upload.single("image"), (req, res) => {
         console.warn("❌ No image uploaded in 'image' field");
     }
 
-    if (!image || !birthDate) {
-        return res.status(400).json({ error: "Missing image or birthDate" });
+    if (!authHeader || !image || !birthDate) {
+        return res.status(403).json({ error: "Missing data or unauthorized" });
     }
 
     // You can now process the image or store it in DB, etc.
