@@ -70,15 +70,18 @@ const LoginPage = () => {
               throw new Error(errorText || 'Login Failed')
           }
           const result = await response.json()
-          console.log('Login API Response:', result.accessToken)
-          console.log('Login API Response:', result.refreshToken)
+          console.log('Login API Response:', result)
+
+          const { accessToken, refreshToken } = result;
 
 
-          if (result.accessToken && result.refreshToken) {
+          if (accessToken && refreshToken) {
             navigate('/student-info', {
-                          state: {
-                              studentName: result.accessToken,
-                              examCode: formData.examCode
+                state: {
+                    accessToken,
+                    refreshToken,
+                    studentName: formData.name.trim(),
+                    examCode: formData.examCode
                          }
                       })
           } else {

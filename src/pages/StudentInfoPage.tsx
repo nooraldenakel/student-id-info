@@ -18,7 +18,7 @@ interface ImageAnalysis {
 const StudentInfoPage = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  const { studentName, examCode } = location.state || {}
+  const { accessToken,refreshToken,studentName, examCode } = location.state || {}
 
   const [birthYear, setBirthYear] = useState('')
   const [birthDate, setBirthDate] = useState('')
@@ -49,7 +49,7 @@ const StudentInfoPage = () => {
                 const response = await fetch(url, {
                     method: "GET",
                     headers: {
-                        'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJteS1hdWRpZW5jZSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJ1c2VybmFtZSI6Itiz2YTZitmF2KfZhiDYqNiv2LEg2YfZhNin2YQg2LXZg9ixIiwiY29kZSI6MjIyNDEyNDAyMjE4MywiZXhwIjoxNzUwMTg3NjM2fQ.nJ7ZK6DTEIe-bLQq0ayX8pcNtsEMX3xV_R217BXLomA`
+                        'Authorization': `Bearer ${accessToken}`
                     }
                 })
                 if (!response.ok) throw new Error('Fetch failed')
