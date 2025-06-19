@@ -153,39 +153,66 @@ const StudentInfoPage = () => {
 
         setSubmitting(true);
 
-        const imageInput = document.getElementById("imageInput"); // your <input type="file" />
-        const birthDateInput = document.getElementById("birthDateInput");
-
-        const file = imageInput[0];
-        const birthDate = birthDateInput?.dataset;
-        const examCode = "2224124022185"; // replace or get from logged-in student
-        const token = "your.jwt.token.here"; 
-
+        const mockExamNumber = "2224124022185";
 
         const formData = new FormData();
-        formData.append("birthDate", birthDate); // format: YYYY-MM-DD
-        formData.append("image", file.);
+        formData.append("birthDate", "2000-01-01");
 
+        const blob = new Blob(
+            [Uint8Array.from(atob("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII="), c => c.charCodeAt(0))],
+            { type: "image/png" }
+        );
+
+        const mockFile = new File([blob], "mock-image.png", { type: "image/png" });
+        formData.append("image", mockFile);
 
         try {
-            const response = await fetch(`https://www.alayen-student-info.site/student/2224124022185`, {
+            const response = await fetch(`/student/2224124022185`, {
                 method: "PATCH",
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    // DO NOT set Content-Type manually!
+                    Authorization: `Bearer ${accessToken}`
+                    // DO NOT set 'Content-Type' here — let browser set it automatically for multipart
                 },
                 body: formData,
             });
 
-            const result = await response.json();
-
-            if (response.ok) {
-                console.log("✅ Success:", result);
-            } else {
-                console.error("❌ Error:", response.status, result);
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${await response.text()}`);
             }
-        } catch (error) {
-            console.error("❌ Network error:", error);
+
+            const data = await response.json();
+            console.log("✅ Success:", data);
+
+
+            //const birthYearValue =
+            //    inputMethod === "calendar"
+            //        ? new Date(birthDate).getFullYear().toString()
+            //        : birthYear;
+            //const birthYearValue = birthDate;
+            //const formData = new FormData();
+            //formData.append("birthDate", birthDate);
+            //formData.append("image", selectedImage); // This must be a File object
+
+            //const response = await fetch(`/student/2224124022185`, {
+            //    method: "PATCH",
+            //    headers: {
+            //        Authorization: `Bearer ${accessToken}`,
+            //        // ❌ DO NOT manually set Content-Type when using FormData
+            //    },
+            //    body: formData,
+            //});
+
+            //if (!response.ok) throw new Error("Failed to submit");
+
+            //const result = await response.json();
+            //console.log("✅ Submission Success:", result);
+            //alert("✅ تم إرسال المعلومات بنجاح!");
+            //navigate("/");
+        } catch (err) {
+            console.error("❌ Submission failed:", err);
+            alert("فشل إرسال المعلومات. تحقق من الاتصال أو حاول مرة أخرى.");
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -426,10 +453,8 @@ const StudentInfoPage = () => {
                     <input
                       type="file"
                       accept="image/*"
-                      id="imageInput" 
                       onChange={handleImageUpload}
                       className="hidden"
-
                     />
                     <div className="border-2 border-dashed border-blue-300 rounded-xl p-8 text-center hover:border-blue-400 transition-colors cursor-pointer bg-blue-50/50">
                       <Upload className="w-12 h-12 text-blue-500 mx-auto mb-4" />
