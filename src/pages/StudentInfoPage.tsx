@@ -166,8 +166,10 @@ const StudentInfoPage = () => {
         const mockFile = new File([blob], "mock-image.png", { type: "image/png" });
         formData.append("image", mockFile);
 
+        const url = `https://www.alayen-student-info.site/student/2224124022185`
+
         try {
-            const response = await fetch(`/student/2224124022185`, {
+            const response = await fetch(url, {
                 method: "PATCH",
                 headers: {
                     Authorization: `Bearer ${accessToken}`
