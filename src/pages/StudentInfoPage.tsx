@@ -153,13 +153,13 @@ const StudentInfoPage = () => {
 
         setSubmitting(true);
         try {
-            const formData = new FormData();
+            
             //const birthYearValue =
             //    inputMethod === "calendar"
             //        ? new Date(birthDate).getFullYear().toString()
             //        : birthYear;
             //const birthYearValue = birthDate;
-
+            const formData = new FormData();
             formData.append("birthDate", birthDate);
             formData.append("image", selectedImage); // This must be a File object
 
