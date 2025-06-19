@@ -67,6 +67,9 @@ const PORT = process.env.PORT || 3000;
 //    res.json({ success: true, message: "Received", examCode, birthDate });
 //});
 
+// Serve frontend build
+app.use(express.static(path.join(__dirname, "dist")));
+
 // ✅ Correct proxy setup
 app.use(
     "/",
@@ -92,8 +95,7 @@ app.use(
     })
 );
 
-// Serve frontend build
-app.use(express.static(path.join(__dirname, "dist")));
+
 
 // Handle SPA routing
 app.get("*", (req, res) => {
