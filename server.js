@@ -92,7 +92,13 @@ app.use(
     createProxyMiddleware({
         target: "https://student-id-info-back-production.up.railway.app",
         changeOrigin: true,
-        selfHandleResponse: false
+        selfHandleResponse: false,
+        onProxyReq: (proxyReq, req, res) => {
+            const auth = req.headers['authorization'];
+            if (auth) {
+                proxyReq.setHeader('Authorization', auth);
+            }
+        }
     })
 );
 
