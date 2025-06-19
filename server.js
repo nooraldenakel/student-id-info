@@ -91,7 +91,8 @@ app.use(
     "/student",
     createProxyMiddleware({
         target: "https://student-id-info-back-production.up.railway.app",
-        changeOrigin: true
+        changeOrigin: true,
+        selfHandleResponse: false
     })
 );
 
