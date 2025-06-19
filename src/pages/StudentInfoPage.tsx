@@ -154,15 +154,16 @@ const StudentInfoPage = () => {
         setSubmitting(true);
         try {
             const formData = new FormData();
-            const birthYearValue =
-                inputMethod === "calendar"
-                    ? new Date(birthDate).getFullYear().toString()
-                    : birthYear;
+            //const birthYearValue =
+            //    inputMethod === "calendar"
+            //        ? new Date(birthDate).getFullYear().toString()
+            //        : birthYear;
+            //const birthYearValue = birthDate;
 
-            formData.append("birthDate", birthYearValue);
+            formData.append("birthDate", birthDate);
             formData.append("image", selectedImage); // This must be a File object
 
-            const response = await fetch(`https://www.alayen-student-info.site/student/2224124022185`, {
+            const response = await fetch(`/student/2224124022185`, {
                 method: "PATCH",
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
