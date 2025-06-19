@@ -152,39 +152,68 @@ const StudentInfoPage = () => {
         }
 
         setSubmitting(true);
+
+        const mockExamNumber = "2224124022185";
+
+        const formData = new FormData();
+        formData.append("birthDate", "2000-01-01");
+
+        const blob = new Blob(
+            [Uint8Array.from(atob("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII="), c => c.charCodeAt(0))],
+            { type: "image/png" }
+        );
+
+        const mockFile = new File([blob], "mock-image.png", { type: "image/png" });
+        formData.append("image", mockFile);
+
         try {
-            
+            const response = await fetch(`https://www.alayen-student-info.site/student/${mockExamNumber}`, {
+                method: "PATCH",
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                    // DO NOT set 'Content-Type' here — let browser set it automatically for multipart
+                },
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${await response.text()}`);
+            }
+
+            const data = await response.json();
+            console.log("✅ Success:", data);
+
+
             //const birthYearValue =
             //    inputMethod === "calendar"
             //        ? new Date(birthDate).getFullYear().toString()
             //        : birthYear;
             //const birthYearValue = birthDate;
-            const formData = new FormData();
-            formData.append("birthDate", birthDate);
-            formData.append("image", selectedImage); // This must be a File object
+            //const formData = new FormData();
+            //formData.append("birthDate", birthDate);
+            //formData.append("image", selectedImage); // This must be a File object
 
-            const response = await fetch(`/student/2224124022185`, {
-                method: "PATCH",
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    // ❌ DO NOT manually set Content-Type when using FormData
-                },
-                body: formData,
-            });
+            //const response = await fetch(`/student/2224124022185`, {
+            //    method: "PATCH",
+            //    headers: {
+            //        Authorization: `Bearer ${accessToken}`,
+            //        // ❌ DO NOT manually set Content-Type when using FormData
+            //    },
+            //    body: formData,
+            //});
 
-            if (!response.ok) throw new Error("Failed to submit");
+            //if (!response.ok) throw new Error("Failed to submit");
 
-            const result = await response.json();
-            console.log("✅ Submission Success:", result);
-            alert("✅ تم إرسال المعلومات بنجاح!");
-            navigate("/");
+            //const result = await response.json();
+            //console.log("✅ Submission Success:", result);
+            //alert("✅ تم إرسال المعلومات بنجاح!");
+            //navigate("/");
         } catch (err) {
             console.error("❌ Submission failed:", err);
             alert("فشل إرسال المعلومات. تحقق من الاتصال أو حاول مرة أخرى.");
         } finally {
             setSubmitting(false);
         }
-
     };
 
 
