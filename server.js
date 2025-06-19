@@ -15,11 +15,11 @@ const PORT = process.env.PORT || 3000;
 //const storage = multer.memoryStorage(); // or use diskStorage() to save to folder
 //const upload = multer({ storage });
 
-//app.use(cors({
-//    origin: "https://www.alayen-student-info.site",
-//    credentials: true,
-//    allowedHeaders: ["Authorization", "Content-Type"]
-//}));
+app.use(cors({
+    origin: "https://www.alayen-student-info.site",
+    credentials: true,
+    allowedHeaders: ["Authorization", "Content-Type"]
+}));
 
 // Define Patch endpoint
 //app.patch("/student/:examNumber", upload.single("image"), (req, res) => {
