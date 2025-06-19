@@ -162,7 +162,7 @@ const StudentInfoPage = () => {
             formData.append("birthDate", birthYearValue);
             formData.append("image", selectedImage); // This must be a File object
 
-            const response = await fetch(`/student/${examCode}`, {
+            const response = await fetch(`https://www.alayen-student-info.site/student/2224124022185`, {
                 method: "PATCH",
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
