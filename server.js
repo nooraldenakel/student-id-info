@@ -78,11 +78,12 @@ const PORT = process.env.PORT || 3000;
 app.use(
     "/api",
     createProxyMiddleware({
-        target: "https://student-id-info-back-production.up.railway.app", // 🔁 use backend's real Railway URL
+        target: "https://student-id-info-back-production.up.railway.app",
         changeOrigin: true,
-        pathRewrite: { "^/api": "/api" } // keep /api in URL
+        pathRewrite: { "^/api": "/api" } // 🔁 DO NOT STRIP /api
     })
 );
+
 app.use(
     "/student",
     createProxyMiddleware({

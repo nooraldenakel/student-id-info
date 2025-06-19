@@ -57,7 +57,7 @@ const LoginPage = () => {
 
       try {
           const encodedName = encodeURIComponent(formData.name.trim())
-          const url = `/login/${formData.examCode}/${encodedName}`
+          const url = `/api/login/${formData.examCode}/${encodedName}`
           const response = await fetch(url, {
               method: 'POST',
               headers: {
