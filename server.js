@@ -11,10 +11,6 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve frontend build
-app.use(express.static(path.join(__dirname, "dist")));
-
-
 //// Configure multer to store uploaded files in memory or on disk
 //const storage = multer.memoryStorage(); // or use diskStorage() to save to folder
 //const upload = multer({ storage });
@@ -72,13 +68,13 @@ app.use(express.static(path.join(__dirname, "dist")));
 //});
 
 // ✅ Correct proxy setup
-app.use(
-    "/",
-    createProxyMiddleware({
-        target: "https://student-id-info-back-production.up.railway.app", // 🔁 use backend's real Railway URL
-        changeOrigin: true,
-    })
-);
+//app.use(
+//    "/",
+//    createProxyMiddleware({
+//        target: "https://student-id-info-back-production.up.railway.app", // 🔁 use backend's real Railway URL
+//        changeOrigin: true,
+//    })
+//);
 app.use(
     "/api",
     createProxyMiddleware({
@@ -94,6 +90,9 @@ app.use(
         changeOrigin: true
     })
 );
+
+// Serve frontend build
+app.use(express.static(path.join(__dirname, "dist")));
 
 // Handle SPA routing
 app.get("*", (req, res) => {
