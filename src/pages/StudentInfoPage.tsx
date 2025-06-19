@@ -47,7 +47,7 @@ const StudentInfoPage = () => {
 
         const fetchStudentInfo = async () => {
             setFetchingInfo(true)
-            const url = `https://www.alayen-student-info.site/student/search?query=${examCode}`
+            const url = `/student/search?query=${examCode}`
             try {
 
                 //const encodedName = encodeURIComponent(studentName.trim())  
@@ -159,20 +159,17 @@ const StudentInfoPage = () => {
                     ? new Date(birthDate).getFullYear().toString()
                     : birthYear;
 
-            formData.append("birthDate", `${birthYearValue}`);
-            formData.append("image", selectedImage);
+            formData.append("birthDate", birthYearValue);
+            formData.append("image", selectedImage); // This must be a File object
 
-            const response = await fetch(
-                `https://www.alayen-student-info.site/student/${examCode}`,
-                {
-                    method: "PATCH",
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                        // ❗ Don't set Content-Type manually; browser will do it for FormData
-                    },
-                    body: formData,
-                }
-            );
+            const response = await fetch(`/student/${examCode}`, {
+                method: "PATCH",
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    // ❌ DO NOT manually set Content-Type when using FormData
+                },
+                body: formData,
+            });
 
             if (!response.ok) throw new Error("Failed to submit");
 
@@ -186,6 +183,7 @@ const StudentInfoPage = () => {
         } finally {
             setSubmitting(false);
         }
+
     };
 
 
