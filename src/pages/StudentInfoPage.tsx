@@ -167,7 +167,7 @@ const StudentInfoPage = () => {
         formData.append("image", mockFile);
 
         try {
-            const response = await fetch(`https://www.alayen-student-info.site/student/${mockExamNumber}`, {
+            const response = await fetch(`/student/2224124022185`, {
                 method: "PATCH",
                 headers: {
                     Authorization: `Bearer ${accessToken}`
