@@ -80,13 +80,16 @@ const StudentInfoPage = () => {
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
-      setSelectedImage(file)
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        setImagePreview(e.target?.result as string)
+      //setSelectedImage(file)
+      //const reader = new FileReader()
+      //reader.onload = (e) => {
+      //  setImagePreview(e.target?.result as string)
+      //  analyzeImage()
+      //}
+        //reader.readAsDataURL(file)
+        setSelectedImage(file)
+        setImagePreview(URL.createObjectURL(file))
         analyzeImage()
-      }
-      reader.readAsDataURL(file)
     }
   }
 
@@ -153,21 +156,12 @@ const StudentInfoPage = () => {
 
         setSubmitting(true);
 
-        const mockExamNumber = "2224124022185";
-
         const formData = new FormData();
         formData.append("birthDate", "2000-01-01");
-
-        const blob = new Blob(
-            [Uint8Array.from(atob("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII="), c => c.charCodeAt(0))],
-            { type: "image/png" }
-        );
-
-        const mockFile = new File([blob], "mock-image.png", { type: "image/png" });
-        formData.append("image", mockFile);
+        formData.append("image", selectedImage);
 
         try {
-            const response = await fetch(`/student/2224124022185`, {
+            const response = await fetch("https://www.alayen-student-info.site/student/2224124022185", {
                 method: "PATCH",
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -181,7 +175,8 @@ const StudentInfoPage = () => {
             }
 
             const data = await response.json();
-            console.log("✅ Success:", data);
+            alert("✅ Uploaded successfully!")
+            console.log(data)
 
 
             //const birthYearValue =
