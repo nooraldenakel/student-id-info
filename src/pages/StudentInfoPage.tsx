@@ -15,6 +15,16 @@ interface ImageAnalysis {
   goodLighting: boolean
 }
 
+interface StudentData {
+    name: string
+    examCode: string
+    collegeDepartment: string
+    studyType: string
+    birthYear?: string
+    imageUrl?: string
+    imageAnalysis?: ImageAnalysis
+}
+
 const StudentInfoPage = () => {
   //const location = useLocation()
   const navigate = useNavigate()
@@ -37,6 +47,8 @@ const StudentInfoPage = () => {
         examNumber: number
         section: string
         studyType: string
+        birthYear?: string
+        imageUrl?: string
     } | null>(null)
     const [fetchingInfo, setFetchingInfo] = useState(false)
     useEffect(() => {
@@ -47,10 +59,10 @@ const StudentInfoPage = () => {
 
         const fetchStudentInfo = async () => {
             setFetchingInfo(true)
-            const url = `/student/search?query=${examCode}`
-            try {
 
-                //const encodedName = encodeURIComponent(studentName.trim())  
+            const url = `/student/search?query=${examCode}`
+
+            try {
                 const response = await fetch(url, {
                     method: "GET",
                     headers: {
@@ -65,8 +77,18 @@ const StudentInfoPage = () => {
                     name: data.name,
                     examNumber: data.examNumber,
                     section: data.section,
-                    studyType: data.studyType
+                    studyType: data.studyType,
+                    birthYear: data.birthDate ? "" : undefined,
+                    imageUrl: data.imageUrl ? "" : undefined
                 })
+
+                if (data.birthYear) {
+                    setBirthDate(studentInfo?.birthYear ? studentInfo?.birthYear : '---')
+                }
+                if (data.imageUrl) {
+                    setImagePreview(studentInfo?.imageUrl ? studentInfo?.imageUrl : '---')
+                }
+
             } catch (err) {
                 console.error('❌ Error loading student info:', err)
             } finally {
