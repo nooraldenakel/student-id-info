@@ -80,13 +80,13 @@ const StudentInfoPage = () => {
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
-      //setSelectedImage(file)
-      //const reader = new FileReader()
-      //reader.onload = (e) => {
-      //  setImagePreview(e.target?.result as string)
-      //  analyzeImage()
-      //}
-        //reader.readAsDataURL(file)
+      setSelectedImage(file)
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result as string)
+        analyzeImage()
+      }
+        reader.readAsDataURL(file)
         setSelectedImage(file)
         setImagePreview(URL.createObjectURL(file))
         analyzeImage()
@@ -148,7 +148,7 @@ const StudentInfoPage = () => {
     return Object.values(imageAnalysis).every(result => result === true)
   }
 
-    const handleSubmit = async () => {
+  const handleSubmit = async () => {
         if (!isFormValid() || !selectedImage) {
             alert("❌ Please select an image and ensure analysis passed.");
             return;
@@ -161,11 +161,10 @@ const StudentInfoPage = () => {
         formData.append("image", selectedImage);
 
         try {
-            const response = await fetch("https://www.alayen-student-info.site/student/2224124022185", {
+            const response = await fetch("https://www.alayen-student-info.site/student/7800000000", {
                 method: "PATCH",
                 headers: {
                     Authorization: `Bearer ${accessToken}`
-                    // DO NOT set 'Content-Type' here — let browser set it automatically for multipart
                 },
                 body: formData,
             });
